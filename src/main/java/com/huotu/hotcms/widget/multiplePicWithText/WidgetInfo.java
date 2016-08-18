@@ -11,15 +11,16 @@ package com.huotu.hotcms.widget.multiplePicWithText;
 import com.huotu.hotcms.widget.ComponentProperties;
 import com.huotu.hotcms.widget.Widget;
 import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.hotcms.widget.model.PicAndText;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -30,6 +31,12 @@ public class WidgetInfo implements Widget{
      * 指定风格的模板类型 如：html,text等
      */
     public static final String VALID_STYLE_TEMPLATE = "styleTemplate";
+
+    public static final String VALID_PICANDTEXTS="picAndTexts";
+
+    public static final String VALID_PIC="pic";
+
+    public static final String VALID_TEXT="text";
 
     @Override
     public String groupId() {
@@ -85,6 +92,17 @@ public class WidgetInfo implements Widget{
     public void valid(String styleId, ComponentProperties componentProperties) throws IllegalArgumentException {
         WidgetStyle style = WidgetStyle.styleByID(this,styleId);
         //加入控件独有的属性验证
+        List<PicAndText> picAndTexts = (List<PicAndText>) componentProperties.get(VALID_PICANDTEXTS);
+        if(picAndTexts==null||ObjectUtils.isEmpty(picAndTexts.toArray())){
+            throw new IllegalArgumentException();
+        }
+
+        for(int i=0;i<picAndTexts.size();i++){
+            PicAndText picAndText=picAndTexts.get(i);
+            if(StringUtils.isEmpty(picAndText.getText())||StringUtils.isEmpty(picAndText.getPic())){
+                throw new IllegalArgumentException();
+            }
+        }
 
     }
 
@@ -97,6 +115,16 @@ public class WidgetInfo implements Widget{
     @Override
     public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException {
         ComponentProperties properties = new ComponentProperties();
+        List<PicAndText> picAndTexts=new ArrayList<>();
+        PicAndText picAndText=new PicAndText();
+        picAndText.setText("火图科技");
+        picAndText.setPic("http://placehold.it/130x200");
+        picAndTexts.add(picAndText);
+        picAndTexts.add(picAndText);
+        picAndTexts.add(picAndText);
+        picAndTexts.add(picAndText);
+        picAndTexts.add(picAndText);
+        properties.put(VALID_PICANDTEXTS,picAndTexts);
         return properties;
     }
 

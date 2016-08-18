@@ -6,6 +6,7 @@ CMSWidgets.initWidget({
     editor: {
         properties: null,
         saveComponent: function (onSuccess, onFailed) {
+
             onSuccess(this.properties);
             return this.properties;
         },

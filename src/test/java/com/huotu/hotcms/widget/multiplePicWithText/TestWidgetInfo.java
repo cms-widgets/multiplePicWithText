@@ -7,16 +7,15 @@
  * 2013-2016. All rights reserved.
  */
 
-package $
-
-import java.io.IOException;
-import java.util.function.Function;{package};
+package com.huotu.hotcms.widget.multiplePicWithText;
 
 import com.huotu.hotcms.widget.ComponentProperties;
 import com.huotu.hotcms.widget.Widget;
 import com.huotu.hotcms.widget.WidgetStyle;
 import com.huotu.widget.test.WidgetTest;
 import org.openqa.selenium.WebElement;
+
+import java.io.IOException;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -37,7 +36,7 @@ public class TestWidgetInfo extends WidgetTest {
     }
 
     @Override
-    protected void browseWork(Widget widget, WidgetStyle style, Function<ComponentProperties, WebElement> uiChanger) {
+    protected void browseWork(Widget widget, WidgetStyle style, Function<ComponentProperties, WebElement> uiChanger) throws IOException {
         ComponentProperties properties = widget.defaultProperties(resourceService);
         WebElement webElement = uiChanger.apply(properties);
 
