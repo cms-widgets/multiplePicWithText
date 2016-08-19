@@ -11,7 +11,6 @@ package com.huotu.hotcms.widget.multiplePicWithText;
 import com.huotu.hotcms.widget.ComponentProperties;
 import com.huotu.hotcms.widget.Widget;
 import com.huotu.hotcms.widget.WidgetStyle;
-import com.huotu.hotcms.widget.model.PicAndText;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -92,14 +91,14 @@ public class WidgetInfo implements Widget{
     public void valid(String styleId, ComponentProperties componentProperties) throws IllegalArgumentException {
         WidgetStyle style = WidgetStyle.styleByID(this,styleId);
         //加入控件独有的属性验证
-        List<PicAndText> picAndTexts = (List<PicAndText>) componentProperties.get(VALID_PICANDTEXTS);
+        List<Map<String, Object>> picAndTexts = (List<Map<String, Object>>) componentProperties.get(VALID_PICANDTEXTS);
         if(picAndTexts==null||ObjectUtils.isEmpty(picAndTexts.toArray())){
             throw new IllegalArgumentException();
         }
 
         for(int i=0;i<picAndTexts.size();i++){
-            PicAndText picAndText=picAndTexts.get(i);
-            if(StringUtils.isEmpty(picAndText.getText())||StringUtils.isEmpty(picAndText.getPic())){
+            Map<String, Object> picAndText=picAndTexts.get(i);
+            if(StringUtils.isEmpty(picAndText.get(VALID_TEXT))||StringUtils.isEmpty(VALID_PIC)){
                 throw new IllegalArgumentException();
             }
         }
@@ -115,12 +114,10 @@ public class WidgetInfo implements Widget{
     @Override
     public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException {
         ComponentProperties properties = new ComponentProperties();
-        List<PicAndText> picAndTexts=new ArrayList<>();
-        PicAndText picAndText=new PicAndText();
-        picAndText.setText("火图科技");
-        picAndText.setPic("http://placehold.it/130x200");
-        picAndTexts.add(picAndText);
-        picAndTexts.add(picAndText);
+        List<Map<String, Object>> picAndTexts=new ArrayList<>();
+        Map<String, Object> picAndText=new HashMap<>();
+        picAndText.put(VALID_TEXT,"火图科技");
+        picAndText.put(VALID_PIC,"http://placehold.it/130x200");
         picAndTexts.add(picAndText);
         picAndTexts.add(picAndText);
         picAndTexts.add(picAndText);

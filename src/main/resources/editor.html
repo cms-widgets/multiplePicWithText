@@ -10,21 +10,21 @@
         </div>
     </form>
 
-    <div  class="LinkRowHtml" style="display:none;">
+    <div th:each="pt:${picAndTexts}"  class="LinkRowHtml" style="display:block;">
         <div class="item form-group">
             <div class="col-sm-3">
-                <input name="picTitle" type="text" class="form-control linkTitle" placeholder="图片简介">
+                <input th:value="${pt.text}" name="picTitle" type="text" class="form-control linkTitle" placeholder="图片简介">
             </div>
 
             <div class="form-group">
                 <label class="col-sm-3 control-label">选择图片</label>
                 <div class="col-sm-9 oneImage">
-                    <div id="imageTextUpload"></div>
+                    <div title="img" id="imageTextUpload"></div>
                 </div>
             </div>
 
             <div class="col-sm-3">
-                <input name="removerPT" type="button" class="btn btn-danger removerLinkItem" value="删除">
+                <button th:attr="index=${ptStat.Index}" name="removerPT" type="button" class="btn btn-danger removerLinkItem">删除</button>
             </div>
         </div>
     </div>
