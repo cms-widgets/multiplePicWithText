@@ -1,34 +1,15 @@
 <!--编辑视图-->
-<div class="borderBoxs">
-    <form class="form-horizontal">
-        <div class="linkbox">
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <button name="addPT" type="button" class="btn btn-success addPT">添加图文</button>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <div th:each="pt:${picAndTexts}"  class="LinkRowHtml" style="display:block;">
-        <div class="item form-group">
-            <div class="col-sm-3">
-                <input th:value="${pt.text}" name="picTitle" type="text" class="form-control linkTitle" placeholder="图片简介">
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-3 control-label">选择图片</label>
-                <div class="col-sm-9 oneImage">
-                    <div title="img" id="imageTextUpload"></div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
-                <button th:attr="index=${ptStat.Index}" name="removerPT" type="button" class="btn btn-danger removerLinkItem">删除</button>
-            </div>
-        </div>
+<div>
+    <div>
+        <select class="gallerys" name="serial">
+            <option th:each="gallery:${@cmsDataSourceService.findGalleryCategory()}"
+                    th:value="${gallery.serial}" th:text="${gallery.name}"></option>
+        </select>
+        <input type="number" name="count" class="count" th:value="${count}">
     </div>
 </div>
+
+
 
 
 <!--/编辑视图-->
