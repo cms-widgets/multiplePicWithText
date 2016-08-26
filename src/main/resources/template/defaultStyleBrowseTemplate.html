@@ -1,13 +1,13 @@
 <!--预览视图-->
 <!--介绍：一个图片上方配一个文字-->
-<div xmlns:th="http://www.thymeleaf.org">
+<div xmlns:th="http://www.thymeleaf.org" class="image-text-list image-text-list-item-sf">
     <!--/*@thymesVar id="serial" type="java.lang.String"*/-->
     <!--/*@thymesVar id="count" type="java.lang.Number"*/-->
-    <url>
+    <ul class="list-inline clearfix">
         <li th:each="item:${@cmsDataSourceService.findGalleryItems(serial,count)}">
-            <img th:src="${item.thumbUri}"/>
+            <img th:src="${item.thumbUri}" class="list-inline clearfix"/>
             <span th:text="${item.name}">title</span>
         </li>
-    </url>
+    </ul>
 </div>
 <!--/预览视图-->

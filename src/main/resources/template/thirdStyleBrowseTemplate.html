@@ -1,13 +1,13 @@
 <!--预览视图-->
 <!--介绍：图标是邮件，电话，位置等-->
-<div xmlns:th="http://www.thymeleaf.org">
+<div xmlns:th="http://www.thymeleaf.org" class="image-text-list image-text-list-small">
     <!--/*@thymesVar id="serial" type="java.lang.String"*/-->
     <!--/*@thymesVar id="count" type="java.lang.Number"*/-->
-    <url>
+    <ul class="list-unstyled clearfix">
         <li th:each="item:${@cmsDataSourceService.findGalleryItems(serial,count)}">
             <img th:src="${item.thumbUri}"/>
             <span th:text="${item.name}">title</span>
         </li>
-    </url>
+    </ul>
 </div>
 <!--/预览视图-->

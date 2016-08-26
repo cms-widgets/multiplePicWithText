@@ -1,13 +1,13 @@
 <!--预览视图-->
 <!--介绍：多个图片，图片里面有“内部培训”，“EST-EAP”，“个体面询”，“电话咨询”，“工作坊”等-->
-<div xmlns:th="http://www.thymeleaf.org">
+<div xmlns:th="http://www.thymeleaf.org" class="image-text-list image-text-list-gray image-text-list-item-sf">
     <!--/*@thymesVar id="serial" type="java.lang.String"*/-->
     <!--/*@thymesVar id="count" type="java.lang.Number"*/-->
-    <url>
+    <ul image-text-list image-text-list-gray image-text-list-item-sf>
         <li th:each="item:${@cmsDataSourceService.findGalleryItems(serial,count)}">
-            <img th:src="${item.thumbUri}"/>
+            <img th:src="${item.thumbUri}" class="img-responsive center-block filter-gray"/>
             <!--<span th:text="${item.name}">title</span>-->
         </li>
-    </url>
+    </ul>
 </div>
 <!--/预览视图-->
