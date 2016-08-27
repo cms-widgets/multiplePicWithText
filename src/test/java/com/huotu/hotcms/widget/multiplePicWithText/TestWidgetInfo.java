@@ -43,9 +43,6 @@ public class TestWidgetInfo extends WidgetTest {
             throws IOException {
         ComponentProperties properties = widget.defaultProperties(resourceService);
 
-
-
-
     }
 
     @Override
@@ -62,8 +59,6 @@ public class TestWidgetInfo extends WidgetTest {
             assertThat(lis).isNull();
         else
             assertThat(lis.size()).isEqualTo(items.size());
-
-
     }
 
     @Override
@@ -81,7 +76,5 @@ public class TestWidgetInfo extends WidgetTest {
             assertThat(elements).isNull();
         else
             assertThat(elements.size()).isEqualTo(galleryCategory.size());
-
-
     }
 }

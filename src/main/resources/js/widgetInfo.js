@@ -14,9 +14,6 @@ CMSWidgets.initWidget({
 
         open: function (globalId) {
             this.properties = widgetProperties(globalId);
-            this.addPAT();
-            this.removePAT();
-            this.uploadImage();
         },
         close: function (globalId) {
 

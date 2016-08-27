@@ -9,16 +9,23 @@
 
 package com.huotu.hotcms.widget.multiplePicWithText;
 
+import com.huotu.hotcms.service.entity.Category;
+import com.huotu.hotcms.service.model.GalleryItemModel;
+import com.huotu.hotcms.widget.CMSContext;
 import com.huotu.hotcms.widget.ComponentProperties;
+import com.huotu.hotcms.widget.PreProcessWidget;
 import com.huotu.hotcms.widget.Widget;
 import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.hotcms.widget.service.CMSDataSourceService;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.util.NumberUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -26,10 +33,11 @@ import java.util.Map;
 /**
  * @author CJ
  */
-public class WidgetInfo implements Widget{
+public class WidgetInfo implements Widget,PreProcessWidget {
 
     public static final String COUNT="count";
     public static final String SERIAL="serial";
+    public static final String DATA_LIST="dataList";
 
 
 
@@ -87,17 +95,6 @@ public class WidgetInfo implements Widget{
     public void valid(String styleId, ComponentProperties componentProperties) throws IllegalArgumentException {
         WidgetStyle style = WidgetStyle.styleByID(this,styleId);
         //加入控件独有的属性验证
-//        if(countAndserial==null|| ObjectUtils.isEmpty(countAndserial.toArray())){
-//            throw new IllegalArgumentException();
-//        }
-//
-//        for(int i=0;i<picAndTexts.size();i++){
-//            Map<String, Object> picAndText=picAndTexts.get(i);
-//            if(StringUtils.isEmpty(picAndText.get(VALID_TEXT))||StringUtils.isEmpty(VALID_PIC)){
-//                throw new IllegalArgumentException();
-//            }
-//        }
-
     }
 
     @Override
@@ -109,9 +106,25 @@ public class WidgetInfo implements Widget{
     @Override
     public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException {
         ComponentProperties properties = new ComponentProperties();
+        CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
+                .getBean(CMSDataSourceService.class);
+        List<Category> categories = cmsDataSourceService.findGalleryCategory();
+        if (categories.isEmpty()) {
+            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
+        }
+        properties.put(SERIAL, categories.get(0).getSerial());
         properties.put(COUNT,"5");
-        properties.put(SERIAL,"");
         return properties;
     }
 
+    @Override
+    public void prepareContext(WidgetStyle style, ComponentProperties properties, Map<String, Object> variables
+            , Map<String, String> parameters) {
+        String serial = (String) properties.get(SERIAL);
+        CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
+                .getBean(CMSDataSourceService.class);
+        int count = NumberUtils.parseNumber(variables.get(COUNT).toString(),Integer.class);
+        List<GalleryItemModel> list = cmsDataSourceService.findGalleryItems(serial,count);
+        variables.put(DATA_LIST,list);
+    }
 }
