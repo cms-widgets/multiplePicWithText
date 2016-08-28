@@ -5,8 +5,8 @@
     <!--/*@thymesVar id="count" type="java.lang.Number"*/-->
     <ul class="list-inline clearfix">
         <li th:each="item:${dataList}">
-            <img th:src="${item.thumbUri}" class="list-inline clearfix"/>
-            <span th:text="${item.name}">title</span>
+            <img res:src="${item.thumbUri}" class="list-inline clearfix"/>
+            <!--<span th:text="${item.name}">title</span>-->
         </li>
     </ul>
 </div>

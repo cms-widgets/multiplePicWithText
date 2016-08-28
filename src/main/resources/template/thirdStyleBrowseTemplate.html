@@ -5,8 +5,8 @@
     <!--/*@thymesVar id="count" type="java.lang.Number"*/-->
     <ul class="list-unstyled clearfix">
         <li th:each="item:${@cmsDataSourceService.findGalleryItems(serial,count)}">
-            <img th:src="${item.thumbUri}"/>
-            <span th:text="${item.name}">title</span>
+            <img res:src="${item.thumbUri}"/>
+            <!--<span th:text="${item.name}">title</span>-->
         </li>
     </ul>
 </div>
