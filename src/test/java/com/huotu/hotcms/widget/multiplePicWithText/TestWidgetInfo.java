@@ -53,8 +53,9 @@ public class TestWidgetInfo extends WidgetTest {
         List<WebElement> lis = editor.findElements(By.tagName("li"));
         CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
                 .getBean(CMSDataSourceService.class);
-        List<GalleryItemModel> items = cmsDataSourceService.findGalleryItems(properties.get(WidgetInfo.SERIAL).toString()
-                ,Integer.valueOf(properties.get(WidgetInfo.COUNT).toString()));
+        List<GalleryItemModel> items = cmsDataSourceService.findGalleryItems(
+                properties.get(WidgetInfo.SERIAL).toString(),
+                Integer.valueOf(properties.get(WidgetInfo.COUNT).toString()));
         if (items==null)
             assertThat(lis).isNull();
         else
