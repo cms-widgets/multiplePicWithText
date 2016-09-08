@@ -22,6 +22,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.util.NumberUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -94,6 +95,11 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     public void valid(String styleId, ComponentProperties componentProperties) throws IllegalArgumentException {
         WidgetStyle style = WidgetStyle.styleByID(this, styleId);
         //加入控件独有的属性验证
+        String count=(String)componentProperties.get(COUNT);
+        String serial=(String)componentProperties.get(SERIAL);
+        if(StringUtils.isEmpty(count)||StringUtils.isEmpty(serial)){
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
