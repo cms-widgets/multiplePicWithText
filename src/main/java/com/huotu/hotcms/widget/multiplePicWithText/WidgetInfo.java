@@ -33,12 +33,11 @@ import java.util.Map;
 /**
  * @author CJ
  */
-public class WidgetInfo implements Widget,PreProcessWidget {
+public class WidgetInfo implements Widget, PreProcessWidget {
 
-    public static final String COUNT="count";
-    public static final String SERIAL="serial";
-    public static final String DATA_LIST="dataList";
-
+    public static final String COUNT = "count";
+    public static final String SERIAL = "serial";
+    public static final String DATA_LIST = "dataList";
 
 
     @Override
@@ -74,11 +73,11 @@ public class WidgetInfo implements Widget,PreProcessWidget {
 
     @Override
     public WidgetStyle[] styles() {
-        return new WidgetStyle[]{new DefaultWidgetStyle(),new FourthWidgetStyle(),new SecondWidgetStyle(),new ThirdWidgetStyle()};
+        return new WidgetStyle[]{new DefaultWidgetStyle(), new FourthWidgetStyle(), new SecondWidgetStyle(), new ThirdWidgetStyle()};
     }
 
     @Override
-    public Resource widgetDependencyContent(MediaType mediaType){
+    public Resource widgetDependencyContent(MediaType mediaType) {
         if (mediaType.equals(Widget.Javascript))
             return new ClassPathResource("js/widgetInfo.js", getClass().getClassLoader());
         return null;
@@ -87,13 +86,13 @@ public class WidgetInfo implements Widget,PreProcessWidget {
     @Override
     public Map<String, Resource> publicResources() {
         Map<String, Resource> map = new HashMap<>();
-        map.put("thumbnail/defaultStyleThumbnail.png",new ClassPathResource("thumbnail/defaultStyleThumbnail.png",getClass().getClassLoader()));
+        map.put("thumbnail/defaultStyleThumbnail.png", new ClassPathResource("thumbnail/defaultStyleThumbnail.png", getClass().getClassLoader()));
         return map;
     }
 
     @Override
     public void valid(String styleId, ComponentProperties componentProperties) throws IllegalArgumentException {
-        WidgetStyle style = WidgetStyle.styleByID(this,styleId);
+        WidgetStyle style = WidgetStyle.styleByID(this, styleId);
         //加入控件独有的属性验证
     }
 
@@ -109,13 +108,10 @@ public class WidgetInfo implements Widget,PreProcessWidget {
         CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
                 .getBean(CMSDataSourceService.class);
         List<Category> categories = cmsDataSourceService.findGalleryCategory();
-        if (categories.isEmpty()) {
-            properties.put(SERIAL, "");
-//            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
-        }else{
-            properties.put(SERIAL, categories.get(0).getSerial());
-        }
-        properties.put(COUNT,"5");
+        if (categories.isEmpty())
+            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
+        properties.put(SERIAL, categories.get(0).getSerial());
+        properties.put(COUNT, "5");
         return properties;
     }
 
@@ -125,8 +121,8 @@ public class WidgetInfo implements Widget,PreProcessWidget {
         String serial = (String) properties.get(SERIAL);
         CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
                 .getBean(CMSDataSourceService.class);
-        int count = NumberUtils.parseNumber(variables.get(COUNT).toString(),Integer.class);
-        List<GalleryItemModel> list = cmsDataSourceService.findGalleryItems(serial,count);
-        variables.put(DATA_LIST,list);
+        int count = NumberUtils.parseNumber(variables.get(COUNT).toString(), Integer.class);
+        List<GalleryItemModel> list = cmsDataSourceService.findGalleryItems(serial, count);
+        variables.put(DATA_LIST, list);
     }
 }
