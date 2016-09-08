@@ -54,15 +54,15 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public String name(Locale locale) {
         if (locale.equals(Locale.CHINA)) {
-            return "A custom Widget";
+            return "多图控件";
         }
         return "multiplePicWithText";
     }
 
     @Override
     public String description(Locale locale) {
-        if (locale.equals(Locale.CHINESE)) {
-            return "这是一个 A custom Widget，你可以对组件进行自定义修改。";
+        if (locale.equals(Locale.CHINA)) {
+            return "这是一个多图控件，你可以对组件进行自定义修改。";
         }
         return "This is a multiplePicWithText,  you can make custom change the component.";
     }
