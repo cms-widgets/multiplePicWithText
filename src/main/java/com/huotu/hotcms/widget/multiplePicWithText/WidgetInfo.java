@@ -74,7 +74,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     @Override
     public WidgetStyle[] styles() {
-        return new WidgetStyle[]{new DefaultWidgetStyle(), new FourthWidgetStyle(), new SecondWidgetStyle(), new ThirdWidgetStyle()};
+        return new WidgetStyle[]{new DefaultWidgetStyle(), new FourthWidgetStyle(), new SecondWidgetStyle()
+                , new ThirdWidgetStyle()};
     }
 
     @Override
@@ -87,7 +88,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public Map<String, Resource> publicResources() {
         Map<String, Resource> map = new HashMap<>();
-        map.put("thumbnail/defaultStyleThumbnail.png", new ClassPathResource("thumbnail/defaultStyleThumbnail.png", getClass().getClassLoader()));
+        map.put("thumbnail/defaultStyleThumbnail.png", new ClassPathResource("thumbnail/defaultStyleThumbnail.png"
+                , getClass().getClassLoader()));
         return map;
     }
 
