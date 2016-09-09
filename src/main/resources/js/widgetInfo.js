@@ -44,7 +44,6 @@ CMSWidgets.initWidget({
                 },
                 error: function(){
                     console.error("ajaxError");
-
                 }
             });
         },

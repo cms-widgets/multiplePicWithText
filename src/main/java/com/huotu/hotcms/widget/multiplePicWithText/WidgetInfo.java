@@ -19,7 +19,11 @@ import com.huotu.hotcms.service.service.CategoryService;
 import com.huotu.hotcms.service.service.ContentService;
 import com.huotu.hotcms.service.service.GalleryItemService;
 import com.huotu.hotcms.service.service.GalleryService;
-import com.huotu.hotcms.widget.*;
+import com.huotu.hotcms.widget.CMSContext;
+import com.huotu.hotcms.widget.ComponentProperties;
+import com.huotu.hotcms.widget.PreProcessWidget;
+import com.huotu.hotcms.widget.Widget;
+import com.huotu.hotcms.widget.WidgetStyle;
 import com.huotu.hotcms.widget.service.CMSDataSourceService;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.springframework.core.io.ClassPathResource;
@@ -119,15 +123,15 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         ComponentProperties properties = new ComponentProperties();
         CMSDataSourceService cmsDataSourceService = getCMSServiceFromCMSContext(CMSDataSourceService.class);
         List<Category> categories = cmsDataSourceService.findGalleryCategory();
-        if (!categories.isEmpty()){
-
+        if (categories.isEmpty()) {
             Category category=initCategory();
             Gallery gallery=initGallery(category);
-            initGalleryItem(gallery);
+            initGalleryItem(gallery, resourceService);
             categories.add(category);
+            properties.put(SERIAL, category.getSerial());
+        } else {
+            properties.put(SERIAL, categories.get(0).getSerial());
         }
-
-        properties.put(SERIAL, categories.get(0).getSerial());
         properties.put(COUNT, "5");
         return properties;
     }
@@ -143,6 +147,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         category.setContentType(ContentType.Gallery);
         category.setName("默认数据源");
         categoryService.init(category);
+        category.setSite(CMSContext.RequestContext().getSite());
 
         //保存到数据库
         categoryRepository.save(category);
@@ -161,7 +166,6 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         gallery.setDescription("这是一个默认图库");
         gallery.setCategory(category);
         contentService.init(gallery);
-
         galleryService.saveGallery(gallery);
         return gallery;
     }
@@ -169,9 +173,10 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     /**
      * 初始化一个图片
      * @param gallery
+     * @param resourceService
      * @return
      */
-    private GalleryItem initGalleryItem(Gallery gallery){
+    private GalleryItem initGalleryItem(Gallery gallery, ResourceService resourceService) {
         ContentService contentService=getCMSServiceFromCMSContext(ContentService.class);
         GalleryItemService galleryItemService=getCMSServiceFromCMSContext(GalleryItemService.class);
         GalleryItem galleryItem=new GalleryItem();
