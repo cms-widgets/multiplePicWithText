@@ -20,33 +20,39 @@ CMSWidgets.initWidget({
 
         },
 
-        getGalleryContent:function(serial,count){
-            var that=this;
-            var url = _CMS_DataSource_URI +"/未定?页码=1&长度="+count+"&图库序列号="+serial;
+        getGalleryContent:function(serial){
+            var count=$("input[name='count']").val();
+            if(count==undefined||count.length==0){
+                console.error("have no count!");
+                return;
+            }
+
+            var url = _CMS_DataSource_URI +"/findGalleryItem?size="+count+"&gallerySerial="+serial;
             console.error("url:"+url);
             $.ajax({
                 type: 'GET',
                 url: url,
                 dataType: 'json',
-                success:function(){
+                success:function(result){
+                    console.error(JSON.stringify(result));
                     console.error("ajaxSuccess");
-                },
-                error: function(){
-                    //测试,假装ajax成功，然后执行的操作
-                    console.error("ajaxError");
                     console.error("count:"+count);
                     $(".clearfix li").remove();
                     var sumCode="";
-                    for(var i=0;i<count;i++){
-                        var url="http://placehold.it/100x75";
-                        var length="1280";
-                        var width="760";
+                    for(var i=0;i<result.length;i++){
+                        var url=result[i].thumbUri;
+                        var length="";
+                        var width="";
                         var htmlCode='<li class="image-list-show"> ' +
                             '<img src="'+url+'"> ' +
                             '<span>'+length+'x'+width+'</span> </li>';
                         sumCode=sumCode+htmlCode;
                     }
                     $(".clearfix:last").append(sumCode);
+                },
+                error: function(){
+                    console.error("ajaxError");
+
                 }
             });
         },
@@ -57,8 +63,7 @@ CMSWidgets.initWidget({
                 console.error("bind");
                 var serial=$(this).val();
                 console.error("serial:"+serial);
-                var count=$("input[name='count']").val();
-                that.getGalleryContent(serial,count);
+                that.getGalleryContent(serial);
             })
 
         },
@@ -66,6 +71,8 @@ CMSWidgets.initWidget({
         open: function (globalId) {
             this.properties = widgetProperties(globalId);
             this.bindSerialSelect();
+            var serial=$(".gallerys option:first").val();
+            this.getGalleryContent(serial);
         },
         close: function (globalId) {
 
