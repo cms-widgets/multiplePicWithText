@@ -19,11 +19,7 @@ import com.huotu.hotcms.service.service.CategoryService;
 import com.huotu.hotcms.service.service.ContentService;
 import com.huotu.hotcms.service.service.GalleryItemService;
 import com.huotu.hotcms.service.service.GalleryService;
-import com.huotu.hotcms.widget.CMSContext;
-import com.huotu.hotcms.widget.ComponentProperties;
-import com.huotu.hotcms.widget.PreProcessWidget;
-import com.huotu.hotcms.widget.Widget;
-import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.hotcms.widget.*;
 import com.huotu.hotcms.widget.service.CMSDataSourceService;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.springframework.core.io.ClassPathResource;
@@ -176,14 +172,13 @@ public class WidgetInfo implements Widget, PreProcessWidget {
      * @param resourceService
      * @return
      */
-    private GalleryItem initGalleryItem(Gallery gallery, ResourceService resourceService) {
+    private GalleryItem initGalleryItem(Gallery gallery, ResourceService resourceService) throws IOException {
         ContentService contentService=getCMSServiceFromCMSContext(ContentService.class);
         GalleryItemService galleryItemService=getCMSServiceFromCMSContext(GalleryItemService.class);
         GalleryItem galleryItem=new GalleryItem();
         galleryItem.setTitle("默认图片标题");
         galleryItem.setDescription("这是一个默认图片");
-        //_resources
-        galleryItem.setThumbUri("http://placehold.it/106x82?text=img");
+        galleryItem.setThumbUri("/_resources/defaultImg.png");
         galleryItem.setSize("106x82");
         galleryItem.setGallery(gallery);
         contentService.init(galleryItem);
