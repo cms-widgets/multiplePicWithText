@@ -29,10 +29,8 @@ import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.io.InputStream;
+import java.util.*;
 
 
 /**
@@ -178,7 +176,13 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         GalleryItem galleryItem=new GalleryItem();
         galleryItem.setTitle("默认图片标题");
         galleryItem.setDescription("这是一个默认图片");
-        galleryItem.setThumbUri("/_resources/defaultImg.png");
+        ClassPathResource classPathResource=new ClassPathResource("thumbnail.png");
+
+        InputStream inputStream=classPathResource.getInputStream();
+        String imgPath= "_resources/"+UUID.randomUUID().toString()+".png";
+        resourceService.uploadResource(imgPath,inputStream);
+
+        galleryItem.setThumbUri(imgPath);
         galleryItem.setSize("106x82");
         galleryItem.setGallery(gallery);
         contentService.init(galleryItem);
