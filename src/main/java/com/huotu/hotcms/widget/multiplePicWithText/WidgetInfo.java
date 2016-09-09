@@ -9,13 +9,17 @@
 
 package com.huotu.hotcms.widget.multiplePicWithText;
 
+import com.huotu.hotcms.service.common.ContentType;
 import com.huotu.hotcms.service.entity.Category;
+import com.huotu.hotcms.service.entity.Gallery;
+import com.huotu.hotcms.service.entity.GalleryItem;
 import com.huotu.hotcms.service.model.GalleryItemModel;
-import com.huotu.hotcms.widget.CMSContext;
-import com.huotu.hotcms.widget.ComponentProperties;
-import com.huotu.hotcms.widget.PreProcessWidget;
-import com.huotu.hotcms.widget.Widget;
-import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.hotcms.service.repository.CategoryRepository;
+import com.huotu.hotcms.service.service.CategoryService;
+import com.huotu.hotcms.service.service.ContentService;
+import com.huotu.hotcms.service.service.GalleryItemService;
+import com.huotu.hotcms.service.service.GalleryService;
+import com.huotu.hotcms.widget.*;
 import com.huotu.hotcms.widget.service.CMSDataSourceService;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.springframework.core.io.ClassPathResource;
@@ -113,14 +117,85 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException {
         ComponentProperties properties = new ComponentProperties();
-        CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
-                .getBean(CMSDataSourceService.class);
+        CMSDataSourceService cmsDataSourceService = getCMSServiceFromCMSContext(CMSDataSourceService.class);
         List<Category> categories = cmsDataSourceService.findGalleryCategory();
-        if (categories.isEmpty())
-            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
+        if (!categories.isEmpty()){
+
+            Category category=initCategory();
+            Gallery gallery=initGallery(category);
+            initGalleryItem(gallery);
+            categories.add(category);
+        }
+
         properties.put(SERIAL, categories.get(0).getSerial());
         properties.put(COUNT, "5");
         return properties;
+    }
+
+    /**
+     * 初始化数据源
+     * @return
+     */
+    private Category initCategory(){
+        CategoryService categoryService=getCMSServiceFromCMSContext(CategoryService.class);
+        CategoryRepository categoryRepository=getCMSServiceFromCMSContext(CategoryRepository.class);
+        Category category = new Category();
+        category.setContentType(ContentType.Gallery);
+        category.setName("默认数据源");
+        categoryService.init(category);
+
+        //保存到数据库
+        categoryRepository.save(category);
+        return category;
+    }
+
+    /**
+     * 初始化一个图库
+     * @return
+     */
+    private Gallery initGallery(Category category){
+        GalleryService galleryService=getCMSServiceFromCMSContext(GalleryService.class);
+        ContentService contentService=getCMSServiceFromCMSContext(ContentService.class);
+        Gallery gallery=new Gallery();
+        gallery.setTitle("默认图库标题");
+        gallery.setDescription("这是一个默认图库");
+        gallery.setCategory(category);
+        contentService.init(gallery);
+
+        galleryService.saveGallery(gallery);
+        return gallery;
+    }
+
+    /**
+     * 初始化一个图片
+     * @param gallery
+     * @return
+     */
+    private GalleryItem initGalleryItem(Gallery gallery){
+        ContentService contentService=getCMSServiceFromCMSContext(ContentService.class);
+        GalleryItemService galleryItemService=getCMSServiceFromCMSContext(GalleryItemService.class);
+        GalleryItem galleryItem=new GalleryItem();
+        galleryItem.setTitle("默认图片标题");
+        galleryItem.setDescription("这是一个默认图片");
+        galleryItem.setThumbUri("http://placehold.it/106x82?text=img");
+        galleryItem.setSize("106x82");
+        galleryItem.setGallery(gallery);
+        contentService.init(galleryItem);
+
+        galleryItemService.saveGalleryItem(galleryItem);
+        return galleryItem;
+
+    }
+
+    /**
+     * 从CMSContext中获取CMSService的实现
+     * @param cmsService    需要返回的service接口
+     * @param <T>           返回的service实现
+     * @return
+     */
+    private <T> T getCMSServiceFromCMSContext(Class<T> cmsService){
+            return CMSContext.RequestContext().
+                    getWebApplicationContext().getBean(cmsService);
     }
 
     @Override

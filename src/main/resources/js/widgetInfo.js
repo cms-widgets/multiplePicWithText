@@ -12,14 +12,6 @@ CMSWidgets.initWidget({
             return this.properties;
         },
 
-        createImg:function(url,length,width){
-            var htmlCode='<li class="image-list-show"> ' +
-                '<img src="'+url+'"> ' +
-                '<span>'+length+'x'+width+'</span> </li>';
-            return htmlCode;
-
-        },
-
         getGalleryContent:function(serial){
             var count=$("input[name='count']").val();
             if(count==undefined||count.length==0){
