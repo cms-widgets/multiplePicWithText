@@ -182,6 +182,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         GalleryItem galleryItem=new GalleryItem();
         galleryItem.setTitle("默认图片标题");
         galleryItem.setDescription("这是一个默认图片");
+        //_resources
         galleryItem.setThumbUri("http://placehold.it/106x82?text=img");
         galleryItem.setSize("106x82");
         galleryItem.setGallery(gallery);
