@@ -19,7 +19,11 @@ import com.huotu.hotcms.service.service.CategoryService;
 import com.huotu.hotcms.service.service.ContentService;
 import com.huotu.hotcms.service.service.GalleryItemService;
 import com.huotu.hotcms.service.service.GalleryService;
-import com.huotu.hotcms.widget.*;
+import com.huotu.hotcms.widget.CMSContext;
+import com.huotu.hotcms.widget.ComponentProperties;
+import com.huotu.hotcms.widget.PreProcessWidget;
+import com.huotu.hotcms.widget.Widget;
+import com.huotu.hotcms.widget.WidgetStyle;
 import com.huotu.hotcms.widget.service.CMSDataSourceService;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.springframework.core.io.ClassPathResource;
@@ -30,7 +34,11 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
 
 /**
@@ -176,7 +184,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         GalleryItem galleryItem=new GalleryItem();
         galleryItem.setTitle("默认图片标题");
         galleryItem.setDescription("这是一个默认图片");
-        ClassPathResource classPathResource=new ClassPathResource("thumbnail.png");
+        ClassPathResource classPathResource = new ClassPathResource("thumbnail.png", getClass().getClassLoader());
 
         InputStream inputStream=classPathResource.getInputStream();
         String imgPath= "_resources/"+UUID.randomUUID().toString()+".png";

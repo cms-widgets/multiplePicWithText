@@ -11,16 +11,13 @@ CMSWidgets.initWidget({
             onSuccess(this.properties);
             return this.properties;
         },
-
         getGalleryContent:function(serial){
             var count=$("input[name='count']").val();
             if(count==undefined||count.length==0){
                 console.error("have no count!");
                 return;
             }
-
             var url = _CMS_DataSource_URI +"/findGalleryItem?size="+count+"&gallerySerial="+serial;
-            console.error("url:"+url);
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -29,36 +26,30 @@ CMSWidgets.initWidget({
                     console.error(JSON.stringify(result));
                     console.error("ajaxSuccess");
                     console.error("count:"+count);
-                    $(".clearfix li").remove();
+                    $(".borderBoxs .clearfix li").remove();
                     var sumCode="";
                     for(var i=0;i<result.length;i++){
                         var url=result[i].thumbUri;
-                        var length="";
-                        var width="";
                         var htmlCode='<li class="image-list-show"> ' +
                             '<img src="'+url+'"> ' +
-                            '<span>'+length+'x'+width+'</span> </li>';
+                            '<span>' + result[i].size + '</span> </li>';
                         sumCode=sumCode+htmlCode;
                     }
-                    $(".clearfix:last").append(sumCode);
+                    $(".borderBoxs .clearfix").append(sumCode);
                 },
                 error: function(){
                     console.error("ajaxError");
                 }
             });
         },
-
         bindSerialSelect:function(){
             var that= this;
             $("select[name='serial'] option").on('click',function(){
-                console.error("bind");
                 var serial=$(this).val();
                 console.error("serial:"+serial);
                 that.getGalleryContent(serial);
             })
-
         },
-
         open: function (globalId) {
             this.properties = widgetProperties(globalId);
             this.bindSerialSelect();
