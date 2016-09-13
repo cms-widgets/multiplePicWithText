@@ -4,7 +4,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">图库数据源：</label>
             <div class="col-sm-3">
-                <select class="select-list gallerys" name="serial">
+                <select class="form-control select-list gallerys" name="serial">
                     <option th:each="gallery:${@cmsDataSourceService.findGalleryCategory()}"
                             th:value="${gallery.serial}" th:text="${gallery.name}"></option>
                 </select>
