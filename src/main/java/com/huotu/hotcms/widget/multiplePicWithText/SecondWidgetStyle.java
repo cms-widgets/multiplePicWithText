@@ -27,7 +27,7 @@ public class SecondWidgetStyle implements WidgetStyle{
 
     @Override
     public String name(Locale locale) {
-        if (locale.equals(Locale.CHINESE)) {
+        if (locale.equals(Locale.CHINA)) {
             return "bootstrap 风格 second";
         }
         return "bootstrap style multiplePicWithText second";
@@ -35,7 +35,7 @@ public class SecondWidgetStyle implements WidgetStyle{
 
     @Override
     public String description(Locale locale) {
-        if (locale.equals(Locale.CHINESE)) {
+        if (locale.equals(Locale.CHINA)) {
             return "基于bootstrap样式的 second";
         }
         return "Based on the bootstrap style by multiplePicWithText second";

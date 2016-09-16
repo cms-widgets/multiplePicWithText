@@ -27,7 +27,7 @@ public class ThirdWidgetStyle implements WidgetStyle{
 
     @Override
     public String name(Locale locale) {
-        if (locale.equals(Locale.CHINESE)) {
+        if (locale.equals(Locale.CHINA)) {
             return "bootstrap 风格 third";
         }
         return "bootstrap style multiplePicWithText third";
@@ -35,7 +35,7 @@ public class ThirdWidgetStyle implements WidgetStyle{
 
     @Override
     public String description(Locale locale) {
-        if (locale.equals(Locale.CHINESE)) {
+        if (locale.equals(Locale.CHINA)) {
             return "基于bootstrap样式的 third";
         }
         return "Based on the bootstrap style by multiplePicWithText third";
