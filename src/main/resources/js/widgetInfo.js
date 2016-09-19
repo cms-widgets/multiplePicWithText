@@ -8,8 +8,9 @@ CMSWidgets.initWidget({
         saveComponent: function (onSuccess, onFailed) {
             this.properties.serial = $(".gallerys").val();
             this.properties.count = $(".count").val();
-            if (this.properties.serial == null || this.properties.serial == '') {
-                onFailed("数据源serial为空，数据源异常");
+            if (this.properties.serial == null || this.properties.serial == '' || this.properties.count == ''
+                || this.properties.count == '0') {
+                onFailed("数据源serial不能为空，且展示条数不能为空");
                 return;
             }
             onSuccess(this.properties);
