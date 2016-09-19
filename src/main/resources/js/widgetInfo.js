@@ -26,7 +26,7 @@ CMSWidgets.initWidget({
                     console.error(JSON.stringify(result));
                     console.error("ajaxSuccess");
                     console.error("count:"+count);
-                    $(".borderBoxs .clearfix li").remove();
+                    $(".borderBoxs .ulImg li").remove();
                     var sumCode="";
                     for(var i=0;i<result.length;i++){
                         var url=result[i].thumbUri;
@@ -35,7 +35,7 @@ CMSWidgets.initWidget({
                             '<span>' + result[i].size + '</span> </li>';
                         sumCode=sumCode+htmlCode;
                     }
-                    $(".borderBoxs .clearfix").append(sumCode);
+                    $(".borderBoxs .ulImg").append(sumCode);
                 },
                 error: function(){
                     console.error("ajaxError");
