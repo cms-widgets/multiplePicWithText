@@ -8,6 +8,10 @@ CMSWidgets.initWidget({
         saveComponent: function (onSuccess, onFailed) {
             this.properties.serial = $(".gallerys").val();
             this.properties.count = $(".count").val();
+            if (this.properties.serial == null || this.properties.serial == '') {
+                onFailed("数据源serial为空，数据源异常");
+                return;
+            }
             onSuccess(this.properties);
             return this.properties;
         },
@@ -23,9 +27,6 @@ CMSWidgets.initWidget({
                 url: url,
                 dataType: 'json',
                 success:function(result){
-                    console.error(JSON.stringify(result));
-                    console.error("ajaxSuccess");
-                    console.error("count:"+count);
                     $(".borderBoxs .ulImg li").remove();
                     var sumCode="";
                     for(var i=0;i<result.length;i++){
@@ -44,20 +45,30 @@ CMSWidgets.initWidget({
         },
         bindSerialSelect:function(){
             var that= this;
-            $("select[name='serial'] option").on('click',function(){
+            $(".bindSelect").on('change', ".gallerys", function () {
                 var serial=$(this).val();
-                console.error("serial:"+serial);
                 that.getGalleryContent(serial);
             })
+
         },
         open: function (globalId) {
             this.properties = widgetProperties(globalId);
             this.bindSerialSelect();
-            var serial=$(".gallerys option:first").val();
+            var serial;
+            if (this.properties.serial == undefined) {
+                serial = $(".gallerys option:first").val();
+            } else {
+                serial = this.properties.serial;
+                $(".gallerys option").each(function () {
+                    if (serial == $(this).val()) {
+                        $(this).attr("selected", true);
+                    }
+                })
+            }
             this.getGalleryContent(serial);
         },
         close: function (globalId) {
-
+            $(".bindSelect").off('change', ".gallerys");
         }
     }
 });
