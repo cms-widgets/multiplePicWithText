@@ -15,6 +15,7 @@ import com.huotu.hotcms.service.entity.Gallery;
 import com.huotu.hotcms.service.entity.GalleryItem;
 import com.huotu.hotcms.service.model.GalleryItemModel;
 import com.huotu.hotcms.service.repository.CategoryRepository;
+import com.huotu.hotcms.service.repository.GalleryRepository;
 import com.huotu.hotcms.service.service.CategoryService;
 import com.huotu.hotcms.service.service.ContentService;
 import com.huotu.hotcms.service.service.GalleryItemService;
@@ -123,16 +124,15 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException {
         ComponentProperties properties = new ComponentProperties();
-        CMSDataSourceService cmsDataSourceService = getCMSServiceFromCMSContext(CMSDataSourceService.class);
-        List<Category> categories = cmsDataSourceService.findGalleryCategory();
-        if (categories.isEmpty()) {
-            Category category=initCategory();
-            Gallery gallery=initGallery(category);
+        GalleryRepository galleryRepository = CMSContext.RequestContext().getWebApplicationContext()
+                .getBean(GalleryRepository.class);
+        List<Gallery> galleryList = galleryRepository.findByCategory_Site(CMSContext.RequestContext().getSite());
+        if (galleryList.isEmpty()) {
+            Gallery gallery = initGallery(initCategory());
             initGalleryItem(gallery, resourceService);
-            categories.add(category);
-            properties.put(SERIAL, category.getSerial());
+            properties.put(SERIAL, gallery.getSerial());
         } else {
-            properties.put(SERIAL, categories.get(0).getSerial());
+            properties.put(SERIAL, galleryList.get(0).getSerial());
         }
         properties.put(COUNT, "5");
         return properties;

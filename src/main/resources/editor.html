@@ -2,12 +2,13 @@
 <div class="borderBoxs">
     <form class="form-horizontal">
         <div class="form-group clearfix">
-            <label class="col-sm-3 control-label">图库数据源：</label>
+            <label class="col-sm-3 control-label">图库：</label>
             <div class="col-sm-3 bindSelect">
-                <select class="form-control select-list gallerys" name="serial">
-                    <option th:each="gallery:${@cmsDataSourceService.findGalleryCategory()}"
-                            th:value="${gallery.serial}" th:text="${gallery.name}"></option>
-                </select>
+                <span data-name="serial" class="gallery-content"></span>
+                <div data-name="serial" class="gallery-item-area">
+                    <!--img item-->
+                    <img src="!{url}" title="是!{title}么?"/>
+                </div>
             </div>
             <label class="col-sm-3 control-label">展示条数：</label>
             <div class="col-sm-3">
@@ -15,9 +16,7 @@
             </div>
         </div>
     </form>
-    <ul class="list-unstyled clearfix ulImg">
 
-    </ul>
 </div>
 <!--/编辑视图-->
 

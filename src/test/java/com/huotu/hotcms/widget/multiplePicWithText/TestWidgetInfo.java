@@ -9,6 +9,7 @@
 
 package com.huotu.hotcms.widget.multiplePicWithText;
 
+import com.huotu.hotcms.service.common.ContentType;
 import com.huotu.hotcms.service.entity.Category;
 import com.huotu.hotcms.service.model.GalleryItemModel;
 import com.huotu.hotcms.widget.CMSContext;
@@ -16,9 +17,12 @@ import com.huotu.hotcms.widget.ComponentProperties;
 import com.huotu.hotcms.widget.Widget;
 import com.huotu.hotcms.widget.WidgetStyle;
 import com.huotu.hotcms.widget.service.CMSDataSourceService;
+import com.huotu.widget.test.Editor;
 import com.huotu.widget.test.WidgetTest;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,10 +43,19 @@ public class TestWidgetInfo extends WidgetTest {
     }
 
     @Override
-    protected void editorWork(Widget widget, WebElement editor, Supplier<Map<String, Object>> currentWidgetProperties)
+    protected void editorWork(Widget widget, Editor editor, Supplier<Map<String, Object>> currentWidgetProperties)
             throws IOException {
-        ComponentProperties properties = widget.defaultProperties(resourceService);
-
+        WebElement count = editor.getWebElement().findElement(By.name("count"));
+        count.clear();
+        Actions actions = new Actions(driver);
+        actions.sendKeys(count, "20").build().perform();
+        Category category = new Category();
+        category.setSerial("123444");
+        category.setContentType(ContentType.Gallery);
+        editor.chooseCategory(WidgetInfo.SERIAL, category);
+        Map map = currentWidgetProperties.get();
+        Assertions.assertThat(map.get(WidgetInfo.COUNT)).isEqualTo("20");
+        Assertions.assertThat(map.get(WidgetInfo.SERIAL)).isEqualTo("123444");
     }
 
     @Override
@@ -67,15 +80,8 @@ public class TestWidgetInfo extends WidgetTest {
             WebElement> uiChanger, Supplier<Map<String, Object>> supplier) throws IOException {
         ComponentProperties properties = widget.defaultProperties(resourceService);
         WebElement editor = uiChanger.apply(properties);
+        WebElement count = editor.findElement(By.name(WidgetInfo.COUNT));
+        Assertions.assertThat(count.getAttribute("value")).isEqualTo(properties.get(WidgetInfo.COUNT).toString());
 
-        List<WebElement> elements = editor.findElements(By.tagName("option"));
-        CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
-                .getBean(CMSDataSourceService.class);
-
-        List<Category> galleryCategory = cmsDataSourceService.findGalleryCategory();
-        if (galleryCategory==null)
-            assertThat(elements).isNull();
-        else
-            assertThat(elements.size()).isEqualTo(galleryCategory.size());
     }
 }
