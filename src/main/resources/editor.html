@@ -4,19 +4,22 @@
         <div class="form-group clearfix">
             <label class="col-sm-3 control-label">图库：</label>
             <div class="col-sm-3 bindSelect">
-                <span data-name="serial" class="gallery-content"></span>
+                <span data-name="serial" class="btn btn-default gallery-content"></span>
+            </div>
+            <label class="col-sm-3 control-label">展示条数：</label>
+            <div class="col-sm-3">
+                <input class="form-control count" type="number" name="count"  th:value="${count}">
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <div class="col-sm-12">
                 <div data-name="serial" class="gallery-item-area">
                     <!--img item-->
                     <img src="!{url}" title="是!{title}么?"/>
                 </div>
             </div>
-            <label class="col-sm-3 control-label">展示条数：</label>
-            <div class="col-sm-3">
-                    <input class="form-control count" type="number" name="count"  th:value="${count}">
-            </div>
         </div>
     </form>
-
 </div>
 <!--/编辑视图-->
 
