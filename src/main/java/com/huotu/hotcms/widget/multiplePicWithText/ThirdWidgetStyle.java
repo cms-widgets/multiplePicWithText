@@ -22,7 +22,7 @@ public class ThirdWidgetStyle implements WidgetStyle{
 
     @Override
     public String id() {
-        return "multiplePicWithTextSecondStyle";
+        return "multiplePicWithTextThirdWidgetStyle";
     }
 
     @Override
