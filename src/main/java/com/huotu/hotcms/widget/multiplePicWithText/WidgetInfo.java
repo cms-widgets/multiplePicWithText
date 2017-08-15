@@ -78,7 +78,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public WidgetStyle[] styles() {
         return new WidgetStyle[]{new DefaultWidgetStyle(), new FourthWidgetStyle(), new SecondWidgetStyle()
-                , new ThirdWidgetStyle()};
+                , new ThirdWidgetStyle(), new FifthWidgetStyle()};
     }
 
     @Override

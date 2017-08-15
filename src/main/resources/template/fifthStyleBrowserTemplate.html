@@ -1,18 +1,18 @@
-<div class="image-list-scale">
+<div class="image-list-scale" xmlns:th="http://www.thymeleaf.org">
     <ul class="list-inline clearfix row">
-        <li>
+        <li th:each="item:${@cmsDataSourceService.findGalleryItems(serial,count)}">
             <span class="center-block">
-                <img class="center-block"
+                <img class="center-block" res:src="${item.thumbUri}"
                      src="http://cdn73.huobanplus.com/cms/gallery/141/c0368337-10b5-449c-8c53-600e74533669.png">
             </span>
         </li>
-        <li>
+        <li th:remove="all">
             <span class="center-block">
                 <img class="center-block"
                      src="http://cdn73.huobanplus.com/cms/gallery/141/295628e9-0d82-4b11-85f5-ea916f8750eb.png">
             </span>
         </li>
-        <li>
+        <li th:remove="all">
             <span class="center-block">
                 <img class="center-block"
                      src="http://cdn73.huobanplus.com/cms/gallery/141/c086bba8-b0d8-4455-a6b7-ef5443ccdd13.png">
