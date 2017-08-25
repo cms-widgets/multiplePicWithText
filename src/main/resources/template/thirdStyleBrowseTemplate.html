@@ -1,11 +1,15 @@
 <!--预览视图-->
 <!--介绍：图标是邮件，电话，位置等-->
-<div xmlns:th="http://www.thymeleaf.org" class="image-text-list-small">
+<div xmlns:th="http://www.thymeleaf.org" xmlns:res="http://resource.jiangcai.me" class="image-text-list-small">
     <!--/*@thymesVar id="serial" type="java.lang.String"*/-->
     <!--/*@thymesVar id="count" type="java.lang.Number"*/-->
+    <!--/*@thymesVar id="dataList" type="java.util.List<com.huotu.hotcms.service.model.GalleryItemModel>"*/-->
     <ul class="list-unstyled clearfix">
-        <li th:each="item:${@cmsDataSourceService.findGalleryItems(serial,count)}">
-            <img res:src="${item.thumbUri}"/>
+        <li th:each="item:${dataList}">
+            <a th:if="${item.relationalUrl!=null}" href="http://www.huobanplus.com" th:href="${item.relationalUrl}">
+                <img res:src="${item.thumbUri}"/>
+            </a>
+            <img  th:if="${item.relationalUrl==null}" res:src="${item.thumbUri}"/>
             <!--<span th:text="${item.name}">title</span>-->
         </li>
     </ul>

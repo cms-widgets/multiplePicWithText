@@ -1,11 +1,15 @@
 <!--预览视图-->
 <!--介绍：一个图片上方配一个文字-->
-<div xmlns:th="http://www.thymeleaf.org" class="image-text-list">
+<div xmlns:th="http://www.thymeleaf.org" xmlns:res="http://resource.jiangcai.me" class="image-text-list">
     <!--/*@thymesVar id="serial" type="java.lang.String"*/-->
     <!--/*@thymesVar id="count" type="java.lang.Number"*/-->
     <ul class="list-inline clearfix">
+        <!--/*@thymesVar id="dataList" type="java.util.List<com.huotu.hotcms.service.model.GalleryItemModel>"*/-->
         <li th:each="item:${dataList}">
-            <img res:src="${item.thumbUri}" class="img-responsive center-block"/>
+            <a th:if="${item.relationalUrl!=null}" href="http://www.huobanplus.com" th:href="${item.relationalUrl}">
+                <img res:src="${item.thumbUri}" class="img-responsive center-block"/>
+            </a>
+            <img th:if="${item.relationalUrl==null}" res:src="${item.thumbUri}" class="img-responsive center-block"/>
             <!--<span th:text="${item.name}">title</span>-->
         </li>
     </ul>
